@@ -20,6 +20,9 @@ Article: https://software.intel.com/en-us/html5/articles/intel-xdk-iot-edition-n
 var mraa = require('mraa'); //require mraa
 var sleep = require('sleep');
 
+var request = require('request');
+var ENDPOINT_URL = "https://salty-plains-7151.herokuapp.com"
+
 console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
 
 var greenLed = new mraa.Gpio(7);
@@ -131,6 +134,34 @@ function accumulateAndValidate(button) {
         unlock();
     } else {
         soundAndFlash();
+    }
+}
+
+/*
+requestAccessFromApi("id", "code", function(response) {
+    if (response.status == 200) {
+        // Open.
+    }
+    else {
+        // Don't open.
+    }
+});
+*/
+
+function requestAccessFromApi(id, code, callback) {
+    console.log("Requesting access from API with code " + code);
+
+    request.put(ENDPOINT_URL + '/authenticate/' + id, {
+        code: code
+    }), function(error, response, body) {
+        console.log("Response from API: ", response.statusCode, body);
+        if (error) {
+            console.log("error", error);
+        }
+        callback({
+            status: response.statusCode,
+            body: body
+        });
     }
 }
 
