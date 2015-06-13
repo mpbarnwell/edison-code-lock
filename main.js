@@ -21,18 +21,26 @@ var mraa = require('mraa'); //require mraa
 var sleep = require('sleep');
 
 var request = require('request');
-var ENDPOINT_URL = "https://salty-plains-7151.herokuapp.com"
+var ENDPOINT_URL = "http://salty-plains-7151.herokuapp.com";
+//var ENDPOINT_URL = "http://192.168.50.133:5000";
+var DOOR_ID = "1";
 
 console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
 
-var greenLed = new mraa.Gpio(7);
+var greenLed = new mraa.Gpio(11);
 greenLed.dir(mraa.DIR_OUT); 
+greenLed.write(0);
+
+var redLed = new mraa.Gpio(10);
+redLed.dir(mraa.DIR_OUT);
+redLed.write(0);
 
 var relay = new mraa.Gpio(8);
 relay.dir(mraa.DIR_OUT);
 
 var keypad = [[1,2,3],[4,5,6],[7,8,9],[0,0,0]];
 var lastButtonState = [];
+var buttonTimeout = -1;
 
 var rows = [
     {
@@ -117,8 +125,10 @@ function soundAndFlash() {
 
 function unlock() {
     relay.write(1);
+    greenLed.write(1);
     setTimeout(function() {
         relay.write(0);
+        greenLed.write(0);
     }, 10000);
 }
 
@@ -128,32 +138,38 @@ function accumulateAndValidate(button) {
     console.log("called " + button);
     currentCode += button.toString();
     if (currentCode.length >= 4) {
-        // Try code TODO
-        console.log("Code Valid: Unlocking Door");
+        requestAccessFromApi("1", currentCode, function(response) {
+            if (response.status == 200) {
+                // Open.
+                console.log("Code Valid: Unlocking Door");
+                unlock();
+            }
+            else {
+                // Don't open.
+                redLed.write(1);
+                setTimeout(function() {
+                    redLed.write(0);
+                }, 3000);
+            }
+        });
         currentCode = "";
-        unlock();
     } else {
         soundAndFlash();
+        if (buttonTimeout >= 0) {
+            clearTimeout(buttonTimeout);
+        }
+        buttonTimeout = setTimeout(function() {
+            currentCode = "";
+        }, 5000);
     }
 }
-
-/*
-requestAccessFromApi("id", "code", function(response) {
-    if (response.status == 200) {
-        // Open.
-    }
-    else {
-        // Don't open.
-    }
-});
-*/
 
 function requestAccessFromApi(id, code, callback) {
     console.log("Requesting access from API with code " + code);
 
     request.put(ENDPOINT_URL + '/authenticate/' + id, {
-        code: code
-    }), function(error, response, body) {
+        form: {code: code}
+    }, function(error, response, body) {
         console.log("Response from API: ", response.statusCode, body);
         if (error) {
             console.log("error", error);
@@ -162,7 +178,7 @@ function requestAccessFromApi(id, code, callback) {
             status: response.statusCode,
             body: body
         });
-    }
+    });
 }
 
 readKeypad(accumulateAndValidate);
