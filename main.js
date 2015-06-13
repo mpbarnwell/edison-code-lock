@@ -22,11 +22,14 @@ var sleep = require('sleep');
 
 console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
 
-// GPIO pins connected to keypad
-//var rows = [2,3,4,5];
-//var cols = [6,7,8];
+var greenLed = new mraa.Gpio(7);
+greenLed.dir(mraa.DIR_OUT); 
+
+var relay = new mraa.Gpio(8);
+relay.dir(mraa.DIR_OUT);
 
 var keypad = [[1,2,3],[4,5,6],[7,8,9],[0,0,0]];
+var lastButtonState = [];
 
 var rows = [
     {
@@ -73,7 +76,7 @@ for (var col in cols) {
     cols[col].gpio.mode(mraa.MODE_PULLUP);
 }
 
-function readKeypad() {
+function readKeypad(onButtonPress) {
     for (var row in rows) {
         // Enable a row
         rows[row].gpio.write(0);
@@ -83,19 +86,52 @@ function readKeypad() {
         // Read column inputs
         for (var col in cols) {
             var v = cols[col].gpio.read();
-            //console.log(v  + " - " + row + " / " + col);
-            if (!v) {
-                //cb();
-                var button = keypad[row][col];
+            var button = keypad[row][col];
+            if (!v && !lastButtonState[button]) {
                 console.log("PRESSED: " + button);
-            } 
+                onButtonPress(button);
+            } else if (v && lastButtonState[button]) {
+                console.log("RELEASED: " + button);
+            }
+            lastButtonState[button] = !v;
         }
             
         // Reset row
         rows[row].gpio.write(1);
     }  
     
-    setTimeout(readKeypad, 200);
+    setTimeout(function() {
+        readKeypad(onButtonPress);
+    }, 50);
 }
 
-readKeypad();
+function soundAndFlash() {
+    greenLed.write(1);
+    setTimeout(function() {
+        greenLed.write(0);
+    }, 50);
+}
+
+function unlock() {
+    relay.write(1);
+    setTimeout(function() {
+        relay.write(0);
+    }, 10000);
+}
+
+var currentCode = "";
+
+function accumulateAndValidate(button) {
+    console.log("called " + button);
+    currentCode += button.toString();
+    if (currentCode.length >= 4) {
+        // Try code TODO
+        console.log("Code Valid: Unlocking Door");
+        currentCode = "";
+        unlock();
+    } else {
+        soundAndFlash();
+    }
+}
+
+readKeypad(accumulateAndValidate);
