@@ -27,7 +27,7 @@ function unlockedHandler() {
 	$(button + " .fa").removeClass("fa-lock").addClass("fa-unlock");
 	$(timer).addClass('begin').addClass('end');
 	$('h1').text("Door is open!");
-	setTimeout(lockedHandler, 5000);
+	setTimeout(lockedHandler, 10000);
 }
 
 function lockedHandler() {
