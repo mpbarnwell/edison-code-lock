@@ -1,0 +1,20 @@
+{
+  "name": "code-lock",
+  "version": "0.0.0",
+  "homepage": "https://github.com/doordeck/code-lock",
+  "authors": [
+    "Shaun Donnelly <shaundonnelly@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "components-font-awesome": "~4.3.0"
+  }
+}

@@ -1,0 +1,141 @@
+::-webkit-input-placeholder {
+   color: #08c;
+}
+
+body {
+	background: #0088cc; /* Old browsers */
+	background: -moz-linear-gradient(-45deg,  #0088cc 0%, #05abe0 100%); /* FF3.6+ */
+	background: -webkit-linear-gradient(-45deg,  #0088cc 0%,#05abe0 100%); /* Chrome10+,Safari5.1+ */
+	background: linear-gradient(135deg,  #0088cc 0%,#05abe0 100%); /* W3C */
+   	height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+	color: #fff;
+	font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+	margin: 50px auto;
+	width: 70%;
+}
+
+code {
+	font-family: Menlo, Consolas, Courier;
+}
+
+h1 {
+	text-align: center;
+	position: relative;
+	z-index: 3;
+}
+
+section {
+	text-align: center;
+}
+
+a {
+	color: #fff;
+}
+
+button {
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    min-width: 100px;
+    padding: 10px 5px;
+}
+button:hover {
+    background: #fff;
+    color: #08c;
+}
+
+input {
+	background: #fff;
+	border: 2px solid transparent;
+	border-radius: 5px;
+	color: #08c;
+	font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	padding: 10px 5px;
+	padding-left: 10px;
+}
+
+.simple-notification {
+	font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+}
+
+table {
+	border-radius: 5px;
+	width: 100%;
+}
+
+th {
+	background: rgba(255,255,255,.4);
+	padding: 5px;
+}
+
+td {
+	background: rgba(255,255,255,.2);
+	padding: 5px;
+}
+
+.centered {
+	text-align: center;
+}
+
+.whoami {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	text-align: right;
+}
+
+.round-button {
+	border-radius: 50%;
+	font-size: 150px;
+	height: 250px;
+	margin-top: 50px;
+	width: 250px;
+	z-index: 3;
+}
+
+.round-button[disabled] {
+	border: none;
+}
+
+.round-button[disabled]:hover {
+	background: transparent;
+	color: #fff;
+}
+
+.unlocker {
+	position: relative;
+	z-index: 3;
+}
+
+.timer {
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background: #5abe57;
+	z-index: 2;
+	position: fixed;
+
+	opacity: 0;
+	transition: 0.1s opacity linear, 5s top linear;
+}
+
+.timer.begin {
+	opacity: 1;
+}
+
+.timer.end {
+	top: 100%;
+}
+
+.no-transition {
+	transition: none;
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Open Sesame</title>
+
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="translucent">
+	    <meta name="format-detection" content="telephone=no">
+	    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+		<script src="scripts/jquery/dist/jquery.min.js"></script>
+		<script src="scripts/simple-notifications/dist/simple-notifications.min.js"></script>	
+		<script src="main.js"></script>
+
+    	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	    <link href="scripts/simple-notifications/dist/simple-notifications.min.css" rel="stylesheet">
+	    <link href="scripts/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<link href="main.css" rel="stylesheet">
+
+	</head>
+
+	<body>
+
+		<h1>Press to unlock.</h1>
+
+		<section class="unlocker centered">
+			<button id="unlock-button" class="round-button" onclick="unlock();">
+				<span class="fa fa-lock"></span>
+			</button>
+		</section>
+
+		<div class="timer"></div>
+
+	</body>
+</html>

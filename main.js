@@ -25,6 +25,17 @@ var ENDPOINT_URL = "http://salty-plains-7151.herokuapp.com";
 //var ENDPOINT_URL = "http://192.168.50.133:5000";
 var DOOR_ID = "1";
 
+var express = require('express');
+var app = express();
+
+app.use('/', express.static('public'));
+
+// GET /unlock.
+app.get('/unlock', function(req, res) {
+    unlock();
+    res.status(200).send("Door unlocked.");
+});
+
 console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
 
 var greenLed = new mraa.Gpio(11);
