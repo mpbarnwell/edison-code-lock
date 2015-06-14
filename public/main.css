@@ -133,6 +133,7 @@ td {
 	position: fixed;
 
 	opacity: 0;
+	-webkit-transition: 0.1s opacity linear, 5s top linear;
 	transition: 0.1s opacity linear, 5s top linear;
 }
 
@@ -145,5 +146,6 @@ td {
 }
 
 .no-transition {
+	-webkit-transition: none;
 	transition: none;
 }
