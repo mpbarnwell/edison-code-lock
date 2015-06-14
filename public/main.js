@@ -40,3 +40,7 @@ function lockedHandler() {
 		$(timer).removeClass('no-transition');
 	}, 100);
 }
+
+$(function() {
+    FastClick.attach(document.body);
+});
