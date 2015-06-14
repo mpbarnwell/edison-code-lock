@@ -92,6 +92,14 @@ td {
 	text-align: right;
 }
 
+.you-are {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	bottom: 20px;
+	left: 0;
+}
+
 .round-button {
 	border-radius: 50%;
 	font-size: 150px;

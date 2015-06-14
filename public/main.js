@@ -16,13 +16,13 @@ function unlock() {
 			unlockedHandler();
 		})
 		.fail(function(error) {
+			console.log("Error.");
 		})
 	;
 }
 
 function unlockedHandler() {
 	currentState = states.UNLOCKED;
-	//SimpleNotifications.create(success, "good");
 	$(button).attr("disabled", "disabled");
 	$(button + " .fa").removeClass("fa-lock").addClass("fa-unlock");
 	$(timer).addClass('begin').addClass('end');
@@ -38,5 +38,5 @@ function lockedHandler() {
 	$('h1').text("Press to unlock.");
 	setTimeout(function() {
 		$(timer).removeClass('no-transition');
-	}, 500);
+	}, 100);
 }
